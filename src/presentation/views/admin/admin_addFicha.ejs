@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%- include('admin_navigation') %>
+    agregar ficha
+    <form action="/addFicha" method="post" enctype="multipart/form-data">
+        <label for="">nombre de la ficha</label>
+        <input type="text" name="name" id="">
+        <label for="">nivel de formacion</label>
+        <select name="level" id="idDelSelect">
+            <option value="" selected>Seleccione una opción</option>
+            <option value="auxiliar">Auxiliar</option>
+            <option value="operario">Operario</option>
+            <option value="tecnico">Técnico</option>
+            <option value="tecnologo">Tecnólogo</option>
+          </select>          
+        <label for="">id de la ficha</label>
+        <input type="text" name="id" id="">
+        <label for="">fin de la etapa lectiva</label>
+        <input type="date" name="end" id="">
+        <label for="">excel de la ficha</label>
+        <input type="file" name="excel" id="" accept=".xlsx, .xls">
+        <button>enviar</button>
+    </form>
+    <%= error %>
+</body>
+</html>

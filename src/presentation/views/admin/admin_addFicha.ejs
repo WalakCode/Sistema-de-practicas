@@ -4,29 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/ficha.script.js"></script>
 </head>
 <body>
     <%- include('admin_navigation') %>
     agregar ficha
-    <form action="/addFicha" method="post" enctype="multipart/form-data">
+    <form action="/addFicha" method="post">
         <label for="">nombre de la ficha</label>
         <input type="text" name="name" id="">
         <label for="">nivel de formacion</label>
         <select name="level" id="idDelSelect">
             <option value="" selected>Seleccione una opción</option>
-            <option value="auxiliar">Auxiliar</option>
-            <option value="operario">Operario</option>
-            <option value="tecnico">Técnico</option>
-            <option value="tecnologo">Tecnólogo</option>
+            <option value="1">Auxiliar</option>
+            <option value="2">Operario</option>
+            <option value="3">Técnico</option>
+            <option value="4">Tecnólogo</option>
           </select>          
         <label for="">id de la ficha</label>
         <input type="text" name="id" id="">
         <label for="">fin de la etapa lectiva</label>
         <input type="date" name="end" id="">
-        <label for="">excel de la ficha</label>
-        <input type="file" name="excel" id="" accept=".xlsx, .xls">
         <button>enviar</button>
     </form>
     <%= error %>
+
+    <table>
+        <tr>
+            <% Object.keys(fichas[0]).forEach(function(clave) { %>
+                <th><%= clave %></th>
+            <% }); %>
+            <th>Acciones</th>
+        </tr>
+        <% fichas.forEach(function(ficha) { %>
+            <tr>
+                <% Object.values(ficha).forEach(function(valor) { %>
+                    <td><%= valor %></td>
+                <% }); %>
+                <td>
+                    <button onclick="editarFicha('<%= ficha.idDB %>')">Editar</button>
+                    <button onclick="verAprendices('<%= ficha.idDB %>')">Ver Aprendices</button>
+                    <button onclick="eliminarFicha('<%= ficha.idDB %>')">Eliminar</button>
+                </td>
+            </tr>
+        <% }); %>
+    </table>
+    
+
 </body>
 </html>

@@ -1,10 +1,32 @@
-<nav>
-    <ul>
-        <li><a href="/alerts">Alertas</a></li>
-        <li><a href="/addFicha">Agregar ficha</a></li>
-        <li><a href="/addAprendiz">Agregar aprendiz</a></li> 
-        <li><a href="/addInstructor">Agregar instructor</a></li> 
-        <li><a href="/getReports">Generar reportes</a></li> 
-        <li><a href="/updateAprendiz">Actualizar aprendiz</a></li> 
-    </ul>
-</nav>
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand">Sistema De Practicas</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link <%= currentUrl === '/alerts' ? 'active' : '' %>" href="/alerts">Alertas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= currentUrl === '/addFicha' ? 'active' : '' %>" href="/addFicha">Agregar ficha</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= currentUrl === '/addAprendiz' ? 'active' : '' %>" href="/addAprendiz">Agregar Aprendiz</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= currentUrl === '/addInstructor' ? 'active' : '' %>" href="/addInstructor">Agregar Instructor</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= currentUrl === '/getReports' ? 'active' : '' %>" href="/getReports">Generar Reportes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= currentUrl === '/updateAprendiz' ? 'active' : '' %>" href="/updateAprendiz">Actualizar Aprendiz</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

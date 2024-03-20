@@ -4,7 +4,8 @@ const jwt = require("jsonwebtoken");
 
 const getMain = async (req, res) => {
   res.clearCookie("jwt");
-  res.render("main.ejs");
+  const error = null
+  res.render("main.ejs",{error});
 };
 
 const getLoginAdmin = async (req, res) => {
@@ -12,24 +13,37 @@ const getLoginAdmin = async (req, res) => {
 };
 
 const getAddFicha = async (req, res) => {
-  const error = null;
-  res.render("admin/admin_addFicha", { error });
+  const result = await fichaService.getFichas();
+  if (result.status == 200) {
+    const error = null;
+    const fichas = result.info;
+    res.render("admin/admin_addFicha", { error, fichas });
+  } else {
+    res.render("admin/error.ejs");
+  }
 };
 
 const postAddFicha = async (req, res) => {
-  if (req.file) {
-    const data = req.body;
-    const excel = req.file.path;
-    const result = await fichaService.getFichaExcel(data, excel);
-    if (result.status == 200) {
-      res.send("si");
+  const data = req.body;
+  const result = await fichaService.addFicha(data);
+  if (result.status == 200) {
+    const resulttres = await fichaService.getFichas();
+    if (resulttres.status == 200) {
+      const error = null;
+      const fichas = resulttres.info;
+      res.render("admin/admin_addFicha", { error, fichas });
     } else {
-      const error = result.message;
-      res.render("admin/admin_addFicha", { error });
+      res.render("admin/error.ejs");
     }
   } else {
-    const error = "se debe adjuntar un excel";
-    res.render("admin/admin_addFicha", { error });
+    const resultdos = await fichaService.getFichas();
+    if (resultdos.status == 200) {
+      const error = result.message;
+      const fichas = resultdos.info;
+      res.render("admin/admin_addFicha", { error, fichas });
+    } else {
+      res.render("admin/error.ejs");
+    }
   }
 };
 
@@ -53,7 +67,8 @@ const postLogin = async (req, res) => {
       res.render("instructor/instructor_reports");
     }
   } else {
-    res.redirect("/");
+    const error = result.message
+    res.render("main.ejs",{error});
   }
 };
 

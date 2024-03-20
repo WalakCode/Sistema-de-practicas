@@ -7,13 +7,14 @@ const {getMain,postLogin,getLoginAdmin,getLoginInstructor,getAddFicha,postAddFic
 const {authToken} = require('../middlewares/auth.middleware')
 const {unexpectedFile} = require('../middlewares/multer.middleware')
 const {validateAddFichaInputs} = require('../middlewares/addficha.middleware')
+const {currentUrl} = require('../middlewares/navbar.middleware')
 router.use(cookieParser());
 
-router.get('/',getMain)
-    .post('/login',postLogin)
-    .get('/alerts',authToken,getLoginAdmin)
-    .get('/getReports',authToken,getLoginInstructor)
-    .get('/addFicha',authToken,getAddFicha)
-    .post('/addFicha',authToken,upload.single("excel"),validateAddFichaInputs,unexpectedFile,postAddFicha)
+router.get('/',currentUrl,getMain)
+    .post('/login',currentUrl,postLogin)
+    .get('/alerts',authToken,currentUrl,getLoginAdmin)
+    .get('/getReports',authToken,currentUrl,getLoginInstructor)
+    .get('/addFicha',authToken,currentUrl,getAddFicha)
+    .post('/addFicha',authToken,currentUrl,validateAddFichaInputs,postAddFicha)
  
 module.exports = router 

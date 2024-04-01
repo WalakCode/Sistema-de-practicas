@@ -3,7 +3,7 @@ const router = express.Router()
 const cookieParser = require('cookie-parser');
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
-const {getMain,postLogin,getLoginAdmin,getLoginInstructor,getAddFicha,postAddFicha} = require('../presentation/controller/user.controller')
+const {getMain,postLogin,getLoginAdmin,getLoginInstructor,getAddFicha,postAddFicha,postModal} = require('../presentation/controller/user.controller')
 const {authToken} = require('../middlewares/auth.middleware')
 const {unexpectedFile} = require('../middlewares/multer.middleware')
 const {validateAddFichaInputs} = require('../middlewares/addficha.middleware')
@@ -16,5 +16,6 @@ router.get('/',currentUrl,getMain)
     .get('/getReports',authToken,currentUrl,getLoginInstructor)
     .get('/addFicha',authToken,currentUrl,getAddFicha)
     .post('/addFicha',authToken,currentUrl,validateAddFichaInputs,postAddFicha)
+    .post('/updateFicha',authToken,currentUrl,validateAddFichaInputs,postModal)
  
 module.exports = router 

@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <script src="/js/ficha.script.js"></script>
+    <link rel="stylesheet" href="/css/ficha.style.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/ficha.script.js"></script>
 </head>
 <body>
     <%- include('admin_navigation') %>
@@ -42,14 +43,60 @@
                     <td><%= valor %></td>
                 <% }); %>
                 <td>
-                    <button onclick="editarFicha('<%= ficha.idDB %>')">Editar</button>
+                    <button onclick="editarFicha('<%= ficha.idDB %>','<%= ficha.Nombre %>','<%= ficha.id %>','<%= ficha.niveldeformacion %>','<%= ficha.finallectiva %>')">Editar</button>
                     <button onclick="verAprendices('<%= ficha.idDB %>')">Ver Aprendices</button>
                     <button onclick="eliminarFicha('<%= ficha.idDB %>')">Eliminar</button>
                 </td>
             </tr>
         <% }); %>
     </table>
-    
+
+    <div class="modal" id="miModal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edita La ficha</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="modal-body">
+            <form action="/updateFicha" method="post">
+                <div>
+                    <input type="hidden" name="hidden" id="hidden">
+                </div>
+                <div>
+                    <label for="">nombre de la ficha</label>
+                    <input type="text" name="name" id="nombre">
+                </div>
+             <div>
+                <label for="">nivel de formacion</label>
+                <select name="level" id="idDelSelectmodal">
+                    <option value="" selected>Seleccione una opción</option>
+                    <option value="1">Auxiliar</option>
+                    <option value="2">Operario</option>
+                    <option value="3">Técnico</option>
+                    <option value="4">Tecnólogo</option>
+                  </select> 
+             </div>
+             <div>
+                <label for="">id de la ficha</label>
+                <input type="text" name="id" id="idficha">
+             </div> 
+              <div>
+                <label for="">fin de la etapa lectiva</label>
+                <input type="date" name="end" id="finallect">
+              </div>
+            </div>
+            <%= error %>
+            <div class="modal-footer">
+              <button class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div>
 
 </body>
 </html>

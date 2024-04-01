@@ -28,6 +28,7 @@ const validateAddFichaInputs = async (req, res, next) => {
         res.render("admin/admin_addFicha", { error,fichas});
         break;
       default:
+
         const parseId = parseInt(id);
         if (isNaN(parseId)) {
           error = 'Ingrese una ficha válida.';

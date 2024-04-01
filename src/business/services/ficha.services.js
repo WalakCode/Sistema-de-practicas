@@ -105,7 +105,23 @@ const getFichas = async(data)=>{
   }
 }
 
+const updateFicha = async(data)=>{
+
+  const result = await fichaRepository.updateFicha([data.name,data.level,data.id,data.end,data.hidden])
+
+  if(result){
+    if(result[0].affectedRows > 0){
+      return {message:'exito',status:200}
+    }else{
+      return {message:'No se actualizo',status:500}
+    }
+  }else{
+    return {message:'error en el servidor',status:500}
+  }
+}
+
 module.exports = {
 addFicha,
-getFichas
+getFichas,
+updateFicha
 };

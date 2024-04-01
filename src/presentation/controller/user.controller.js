@@ -72,6 +72,35 @@ const postLogin = async (req, res) => {
   }
 };
 
+const postModal = async(req,res)=>{
+  let error;
+  const result = await fichaService.updateFicha(req.body)
+  if(result.status == 200){
+    error = null
+    const resultdos = await fichaService.getFichas();
+    if(resultdos.status == 200){
+      const fichas = resultdos.info;
+      error = null
+      res.render("admin/admin_addFicha",{ error, fichas });
+    }else{
+      error = resultdos.message
+      const fichas = resultdos.info;
+      res.render("admin/admin_addFicha",{ error, fichas });
+    }
+  }else{
+    const resultdos = await fichaService.getFichas();
+    if(resultdos.status == 200){
+      const fichas = resultdos.info;
+      error = result.message
+      res.render("admin/admin_addFicha",{ error, fichas });
+    }else{
+      error = resultdos.message
+      const fichas = resultdos.info;
+      res.render("admin/admin_addFicha",{ error, fichas });
+    }
+  }
+}
+
 module.exports = {
   getMain,
   postLogin,
@@ -79,4 +108,5 @@ module.exports = {
   getLoginInstructor,
   getAddFicha,
   postAddFicha,
+  postModal
 };

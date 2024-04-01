@@ -7,8 +7,8 @@ const getFichas = async () => {
       `SELECT fichas.id_ficha AS idDB, 
        fichas.nombre_ficha AS Nombre, 
        fichas.ficha_id AS id, 
-       niveles.nombre_nivel AS 'nivel de formacion', 
-       DATE_FORMAT(fichas.final_lectiva, '%Y-%m-%d') AS 'fecha final de etapa lectiva'
+       niveles.nombre_nivel AS 'niveldeformacion', 
+       DATE_FORMAT(fichas.final_lectiva, '%Y-%m-%d') AS 'finallectiva'
        FROM fichas
        JOIN niveles ON fichas.nivel = niveles.id_niveles;
        `
@@ -39,6 +39,29 @@ const verifyFicha = async (id) => {
     await db.end();
   }
 };
+
+const updateFicha = async (data)=>{
+  const db = await createConnection();
+  try {
+    const status = await db.query(
+        `
+        UPDATE fichas 
+        SET nombre_ficha = ?,
+        nivel = ?,
+        ficha_id = ?,
+        final_lectiva = ?
+        WHERE id_ficha = ?
+        `,
+      data
+    );
+    return status;
+  } catch (error) {
+    console.log(error);
+    return null;
+  } finally {
+    await db.end();
+  }
+}
 
 const insertFicha = async (datos) => {
   const db = await createConnection();
@@ -114,10 +137,12 @@ const verifyAprendices = async (id) => {
   }
 };
 
+
 module.exports = {
   insertFicha,
   insertAprendices,
   verifyFicha,
   verifyAprendices,
   getFichas,
+  updateFicha
 };

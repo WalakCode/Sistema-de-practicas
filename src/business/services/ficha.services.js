@@ -80,7 +80,6 @@ const addFicha = async(data)=>{
   const parseLevel = parseInt(data.level);
   const datos = [data.name, data.id, parseLevel, data.end];
   const verify = await fichaRepository.verifyFicha(data.id);
-
   if(verify){
     if (verify[0].length > 0) {
       return { message: "ya existe la ficha con ese id", status: 400 };
@@ -92,12 +91,22 @@ const addFicha = async(data)=>{
         return { message: "Error en el servidor", status: 500 };
       }
     }
+  }else{
+    return { message: "Error en el servidor", status: 500 };
+  }
+}
+
+const getFicha = async(id)=>{
+  const result = await fichaRepository.getFicha(id)
+  if(result){
+    return {message:'exito',info:result[0],status:200}
+  }else{
+    return {message:'error en el servidor',status:500}
   }
 }
 
 const getFichas = async(data)=>{
   const result = await fichaRepository.getFichas()
-  
   if(result){
     return {message:'exito',info:result[0],status:200}
   }else{
@@ -120,8 +129,23 @@ const updateFicha = async(data)=>{
   }
 }
 
+const deleteFicha = async(data)=>{
+  const result = await fichaRepository.deleteFicha(data)
+  if(result){
+    if(result[0].affectedRows > 0){
+      return {message:'exito',status:200}
+    }else{
+      return {message:'No se Elimino',status:500}
+    }
+  }else{
+    return {message:'error en el servidor',status:500}
+  }
+}
+
 module.exports = {
 addFicha,
 getFichas,
-updateFicha
+updateFicha,
+deleteFicha,
+getFicha
 };

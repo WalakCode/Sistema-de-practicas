@@ -1,5 +1,6 @@
 const userService = require("../../business/services/user.services");
 const fichaService = require("../../business/services/ficha.services");
+const aprendizService = require('../../business/services/aprendiz.services')
 const jwt = require("jsonwebtoken");
 
 const getMain = async (req, res) => {
@@ -19,7 +20,8 @@ const getAddFicha = async (req, res) => {
     const fichas = result.info;
     res.render("admin/admin_addFicha", { error, fichas });
   } else {
-    res.render("admin/error.ejs");
+    const error = result.message
+    res.render("admin/error.ejs",{error});
   }
 };
 
@@ -27,22 +29,16 @@ const postAddFicha = async (req, res) => {
   const data = req.body;
   const result = await fichaService.addFicha(data);
   if (result.status == 200) {
+    res.redirect('addFicha')
+  } else {
     const resulttres = await fichaService.getFichas();
     if (resulttres.status == 200) {
-      const error = null;
+      const error = result.message
       const fichas = resulttres.info;
       res.render("admin/admin_addFicha", { error, fichas });
     } else {
-      res.render("admin/error.ejs");
-    }
-  } else {
-    const resultdos = await fichaService.getFichas();
-    if (resultdos.status == 200) {
-      const error = result.message;
-      const fichas = resultdos.info;
-      res.render("admin/admin_addFicha", { error, fichas });
-    } else {
-      res.render("admin/error.ejs");
+      const error = resulttres.message
+      res.render("admin/error.ejs",{error});
     }
   }
 };
@@ -72,34 +68,63 @@ const postLogin = async (req, res) => {
   }
 };
 
-const postModal = async(req,res)=>{
-  let error;
+const postUpdateModal = async(req,res)=>{
   const result = await fichaService.updateFicha(req.body)
   if(result.status == 200){
-    error = null
-    const resultdos = await fichaService.getFichas();
-    if(resultdos.status == 200){
-      const fichas = resultdos.info;
-      error = null
-      res.render("admin/admin_addFicha",{ error, fichas });
-    }else{
-      error = resultdos.message
-      const fichas = resultdos.info;
-      res.render("admin/admin_addFicha",{ error, fichas });
-    }
+    res.redirect('addFicha')
   }else{
-    const resultdos = await fichaService.getFichas();
-    if(resultdos.status == 200){
-      const fichas = resultdos.info;
-      error = result.message
-      res.render("admin/admin_addFicha",{ error, fichas });
-    }else{
-      error = resultdos.message
-      const fichas = resultdos.info;
-      res.render("admin/admin_addFicha",{ error, fichas });
+    const resulttres = await fichaService.getFichas();
+    if (resulttres.status == 200) {
+      const error = result.message
+      const fichas = resulttres.info;
+      res.render("admin/admin_addFicha", { error, fichas });
+    } else {
+      const error = resulttres.message
+      res.render("admin/error.ejs",{error});
     }
   }
 }
+
+const postDeleteModal = async(req,res)=>{
+  let error;
+  const id = req.body.hidden
+  const result = await fichaService.deleteFicha(id)
+  if(result.status == 200){
+    res.redirect('addFicha')
+  }else{
+    const resulttres = await fichaService.getFichas();
+    if (resulttres.status == 200) {
+      const error = result.message
+      const fichas = resulttres.info;
+      res.render("admin/admin_addFicha", { error, fichas });
+    } else {
+      const error = resulttres.message
+      res.render("admin/error.ejs",{error});
+    }
+  }
+}
+
+const getAprendices = async(req,res)=>{
+  const id = req.body.idFicha
+  const result = await aprendizService.getAprendices(id)
+  if(result.status == 200){
+    const aprendices = result.info
+    const resultdos = await fichaService.getFicha(id)
+    if(resultdos.status == 200){
+      const ficha = resultdos.info 
+      res.render("admin/admin_aprendices",{aprendices,ficha});
+    }else{
+      error = resultdos.message
+      res.render("admin/error.ejs",{error});
+    }
+  }else{
+    error = result.message
+    res.render("admin/error.ejs",{error});
+  }
+  
+
+}
+
 
 module.exports = {
   getMain,
@@ -108,5 +133,7 @@ module.exports = {
   getLoginInstructor,
   getAddFicha,
   postAddFicha,
-  postModal
+  postDeleteModal,
+  postUpdateModal,
+  getAprendices
 };

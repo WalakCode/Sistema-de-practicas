@@ -4,7 +4,7 @@ const getFichas = async () => {
   const db = await createConnection();
   try {
     const status = await db.execute(
-      `SELECT fichas.id_ficha AS idDB, 
+      `SELECT fichas.id_ficha AS idDB,
        fichas.nombre_ficha AS Nombre, 
        fichas.ficha_id AS id, 
        niveles.nombre_nivel AS 'niveldeformacion', 
@@ -22,6 +22,48 @@ const getFichas = async () => {
   }
 };
 
+const getFicha = async (id) => {
+  const db = await createConnection();
+  try {
+    const status = await db.query(
+        `
+       SELECT nombre_ficha AS Formacion, 
+       ficha_id AS ID, 
+       nombre_nivel AS 'nivel de formacion', 
+       DATE_FORMAT(fichas.final_lectiva, '%Y-%m-%d') AS 'final de etapa lectiva' 
+       FROM fichas 
+       JOIN niveles on nivel = id_niveles
+       WHERE id_ficha = ?
+        `,
+      id
+    );
+    return status;
+  } catch (error) {
+    console.log(error);
+    return null;
+  } finally {
+    await db.end();
+  }
+};
+
+const deleteFicha = async (id) => {
+  const db = await createConnection();
+  try {
+    const status = await db.query(
+        `
+        DELETE FROM fichas WHERE id_ficha = ?
+        `,
+      id
+    );
+    return status;
+  } catch (error) {
+    console.log(error);
+    return null;
+  } finally {
+    await db.end();
+  }
+};
+ 
 const verifyFicha = async (id) => {
   const db = await createConnection();
   try {
@@ -34,6 +76,7 @@ const verifyFicha = async (id) => {
     return status;
   } catch (error) {
     console.log(error);
+    console.log('s')
     return null;
   } finally {
     await db.end();
@@ -144,5 +187,7 @@ module.exports = {
   verifyFicha,
   verifyAprendices,
   getFichas,
-  updateFicha
+  updateFicha,
+  deleteFicha,
+  getFicha
 };

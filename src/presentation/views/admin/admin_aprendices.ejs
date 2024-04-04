@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%- include('admin_navigation') %>
+
+    <table>
+        <tr>
+          <th>Formación</th>
+          <th>ID</th>
+          <th>Nivel de formación</th>
+          <th>Final de etapa lectiva</th>
+        </tr>
+        <tr>
+          <td><%= ficha[0].Formacion %></td>
+          <td><%= ficha[0].ID %></td>
+          <td><%= ficha[0]['nivel de formacion'] %></td>
+          <td><%= ficha[0]['final de etapa lectiva'] %></td>
+        </tr>
+      </table>
+      
+    <% if (aprendices.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <% var keys = Object.keys(aprendices[0]); %>
+                    <% for (var i = 1; i < keys.length; i++) { %>
+                        <th><%= keys[i] %></th>
+                    <% } %>
+                </tr>
+            </thead>
+            <tbody>
+                <% aprendices.forEach(function(aprendiz) { %>
+                    <tr>
+                        <% var values = Object.values(aprendiz); %>
+                        <% for (var i = 1; i < values.length; i++) { %>
+                            <td><%= values[i] %></td>
+                        <% } %>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>No hay aprendices disponibles.</p>
+    <% } %>
+    
+</body>
+</html>

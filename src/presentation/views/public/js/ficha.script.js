@@ -1,7 +1,15 @@
-
-    
-function eliminarFicha(id) {
+function verAprendices(id) {
     console.log(id)
+}
+
+function eliminarFicha(id) {
+    
+    const hidden = document.getElementById('hiddenDelete')
+    hidden.value = id
+
+    var myModal = new bootstrap.Modal(document.getElementById('miModalDelete'));
+    myModal.show();
+
  }
  
  function editarFicha(id,nombre,ficha,nivel,final) {
@@ -41,9 +49,7 @@ function eliminarFicha(id) {
      myModal.show();
  }  
  
- function verAprendices(id) {
-     console.log(id)
- }
+
 
 
 

@@ -1,4 +1,5 @@
-const baseUrl = "http://localhost:8080/"  //cambiar cuando se lance en un servidor 
+// const baseUrl = "http://localhost:8080/"
+const baseUrl = "https://practicas.up.railway.app/"
 
 window.addEventListener('DOMContentLoaded', inicializarModal);
 

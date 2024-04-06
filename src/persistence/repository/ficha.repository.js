@@ -113,7 +113,7 @@ const insertFicha = async (datos) => {
   try {
     const status = await db.execute(
       `
-        INSERT INTO fichas (nombre_ficha,ficha_id,nivel,final_lectiva) VALUES (?,?,?,?)
+        INSERT INTO fichas (nombre_ficha,ficha_id,nivel,final_lectiva,estado) VALUES (?,?,?,?,"WIP")
       `,
       datos
     );

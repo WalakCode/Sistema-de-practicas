@@ -1,0 +1,83 @@
+#miModalAprendices{
+    --bs-modal-width:100%;
+    --bs-modal-margin:2.5rem;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+th {
+    background-color: #343a40;
+    color: white;
+}
+
+
+th.col1 {
+    width: 5%; 
+}
+
+th.col2 {
+    width: 10%; 
+}
+
+th.col3 {
+    width: 20%; 
+}
+
+th.col4{
+    width:8%;
+}
+
+th.col5{
+    width:23%;
+}
+
+th.col6{
+    width:23%;
+}
+
+.agregarFicha{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    border-radius: 2%;
+    border: 1px solid #dddddd;
+}
+
+
+.aggficha{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 50px;
+  
+}
+
+.aggficha div{
+    margin-right: 50px;
+    margin-left: 50px;
+}
+.aggficha button{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.buton{
+    display: flex;
+    flex-direction: column;
+}

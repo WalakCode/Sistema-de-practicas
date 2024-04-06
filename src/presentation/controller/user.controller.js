@@ -105,14 +105,14 @@ const postDeleteModal = async(req,res)=>{
 }
 
 const getAprendices = async(req,res)=>{
+
   const id = req.body.idFicha
   const result = await aprendizService.getAprendices(id)
   if(result.status == 200){
     const aprendices = result.info
     const resultdos = await fichaService.getFicha(id)
     if(resultdos.status == 200){
-      const ficha = resultdos.info 
-      res.render("admin/admin_aprendices",{aprendices,ficha});
+      res.json(aprendices)
     }else{
       error = resultdos.message
       res.render("admin/error.ejs",{error});

@@ -6,34 +6,52 @@
     <title>Document</title>
     <link rel="stylesheet" href="/css/ficha.style.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/js/ficha.script.js"></script>
 </head>
 <body>
     <%- include('admin_navigation') %>
-    agregar ficha
-    <form action="/addFicha" method="post">
-        <label for="">nombre de la ficha</label>
-        <input type="text" name="name" id="">
-        <label for="">nivel de formacion</label>
-        <select name="level" id="idDelSelect">
-            <option value="" selected>Seleccione una opción</option>
-            <option value="1">Auxiliar</option>
-            <option value="2">Operario</option>
-            <option value="3">Técnico</option>
-            <option value="4">Tecnólogo</option>
-          </select>          
-        <label for="">id de la ficha</label>
-        <input type="text" name="id" id="">
-        <label for="">fin de la etapa lectiva</label>
-        <input type="date" name="end" id="">
-        <button>enviar</button>
-    </form>
+
     <% if (error) { %>
       <div class="alert alert-dismissible alert-danger">
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <strong><%= error %></strong>
       </div>
     <% } %>
+<div class="aggficha">
+  
+  <h1>agregar una ficha</h1>
+  <form action="/addFicha" method="post" class="agregarFicha">
+    <div>
+      <label for="" class="form-label mt-4">nombre de la ficha</label>
+      <input type="text" name="name" id="" class="form-control">
+    </div>
+    <div>
+  <label for="" class="form-label mt-4">nivel de formacion</label>
+    <select name="level" id="idDelSelect" class="form-select">
+        <option value="" selected>Seleccione una opción</option>
+        <option value="1">Auxiliar</option>
+        <option value="2">Operario</option>
+        <option value="3">Técnico</option>
+        <option value="4">Tecnólogo</option>
+      </select>  
+    </div>
+    <div>
+    <label for="" class="form-label mt-4" >id de la ficha</label>
+    <input type="text" name="id" id="" class="form-control">
+    </div>  
+    <div>
+      <label for="" class="form-label mt-4" >fin de la etapa lectiva</label>
+      <input type="date" name="end" id="" class="form-control">
+    </div>
+    <div class="buton">
+      <button  class="btn btn-dark">enviar</button>
+    </div>
+    
+</form>
+
+</div>
+    
     
     <% if (fichas.length > 0) { %>
       <table>
@@ -55,22 +73,25 @@
                       <% } %>
                   <% }); %>
                   <td>
-                      <button onclick="editarFicha('<%= ficha.idDB %>','<%= ficha.Nombre %>','<%= ficha.id %>','<%= ficha.niveldeformacion %>','<%= ficha.finallectiva %>')">Editar</button>
-                      <button onclick="eliminarFicha('<%= ficha.idDB %>')">Eliminar</button>
+                      <button class="btn btn-info" onclick="editarFicha('<%= ficha.idDB %>','<%= ficha.Nombre %>','<%= ficha.id %>','<%= ficha.niveldeformacion %>','<%= ficha.finallectiva %>','<%= ficha.estado %>')">Editar</button>
+                      <button class="btn btn-danger" onclick="eliminarFicha('<%= ficha.idDB %>')">Eliminar</button>
+                      
                   </td>
                   
                   <td>
-                    <form action="getAprendices" method="post">
+                    <button class="btn btn-warning" onclick="verAprendices('<%= ficha.idDB %>','<%= ficha.Nombre %>','<%= ficha.id %>','<%= ficha.niveldeformacion %>','<%= ficha.finallectiva %>','<%= ficha.estado %>')">Ver Aprendices</button>
+                    <button class="btn btn-success" onclick="verAprendices('<%= ficha.idDB %>','<%= ficha.Nombre %>','<%= ficha.id %>','<%= ficha.niveldeformacion %>','<%= ficha.finallectiva %>','<%= ficha.estado %>')">Agregar Aprendices</button>
+                    <!-- <form action="getAprendices" method="post">
                       <input type="hidden" name="idFicha" value="<%= ficha.idDB %>">
                       <button>Ver Aprendices</button>
-                    </form>
+                    </form> -->
                   </td>
-                  <td>
+                  <!-- <td>
                     <form action="postAprendices" method="post">
                       <input type="hidden" name="idFicha" value="<%= ficha.idDB %>">
                       <button>Agregar Aprendices</button>
                     </form>
-                  </td>
+                  </td> -->
               </tr>
           <% }); %>
       </table>
@@ -117,6 +138,10 @@
                 <label for="">fin de la etapa lectiva</label>
                 <input type="date" name="end" id="finallect">
               </div>
+              <div>
+                <label for="">estado</label>
+                <input type="text" name="estado" id="estado">
+            </div>
             </div>
             <%= error %>
             <div class="modal-footer">
@@ -151,6 +176,55 @@
           </div>
         </div>
     </div>
+
+    <div class="modal" id="miModalAprendices">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" id="modal-apr">
+          <div class="modal-header" >
+            <h5 class="modal-title" id="titulo"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h5 id="estadoModal"></h5>
+            <h5 id="idFichaModal"></h5>
+            <h5 id="nivelModalficha"></h5>
+            <h5 id="finalLectModal"></h5>
+          </div>
+          <div class="modal-body">
+
+            <table id="dataTable">
+              <thead class="hola">
+                <tr>
+                  <th class="col1">Tipo de Documento</th>
+                  <th class="col2">Número de Documento</th>
+                  <th class="col3">Nombres</th>
+                  <th class="col3">Apellidos</th>
+                  <th class="col4">Celular</th>
+                  <th class="col5">Correo Personal</th>
+                  <th class="col6">Estado</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody">
+               
+              </tbody>
+            </table>
+
+            
+
+
+          </div>
+          <form action="deleteFicha" method="post">
+            <input type="hidden" name="hidden" id="hiddenDelete">
+            <div class="modal-footer">
+              <button class="btn btn-danger">Eliminar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+  </div>
 
 </body>
 </html>

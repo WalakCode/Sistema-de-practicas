@@ -13,44 +13,12 @@
     <%- include('admin_navigation') %>
 
     <% if (error) { %>
-      <div class="alert alert-dismissible alert-danger">
+      <div class="alert alert-dismissible alert-warning">
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <strong><%= error %></strong>
       </div>
     <% } %>
-<div class="aggficha">
-  
-  <h1>agregar una ficha</h1>
-  <form action="/addFicha" method="post" class="agregarFicha">
-    <div>
-      <label for="" class="form-label mt-4">nombre de la ficha</label>
-      <input type="text" name="name" id="" class="form-control">
-    </div>
-    <div>
-  <label for="" class="form-label mt-4">nivel de formacion</label>
-    <select name="level" id="idDelSelect" class="form-select">
-        <option value="" selected>Seleccione una opción</option>
-        <option value="1">Auxiliar</option>
-        <option value="2">Operario</option>
-        <option value="3">Técnico</option>
-        <option value="4">Tecnólogo</option>
-      </select>  
-    </div>
-    <div>
-    <label for="" class="form-label mt-4" >id de la ficha</label>
-    <input type="text" name="id" id="" class="form-control">
-    </div>  
-    <div>
-      <label for="" class="form-label mt-4" >fin de la etapa lectiva</label>
-      <input type="date" name="end" id="" class="form-control">
-    </div>
-    <div class="buton">
-      <button  class="btn btn-dark">enviar</button>
-    </div>
-    
-</form>
 
-</div>
     
     
     <% if (fichas.length > 0) { %>
@@ -80,7 +48,7 @@
                   
                   <td>
                     <button class="btn btn-warning" onclick="verAprendices('<%= ficha.idDB %>','<%= ficha.Nombre %>','<%= ficha.id %>','<%= ficha.niveldeformacion %>','<%= ficha.finallectiva %>','<%= ficha.estado %>')">Ver Aprendices</button>
-                    <button class="btn btn-success" onclick="verAprendices('<%= ficha.idDB %>','<%= ficha.Nombre %>','<%= ficha.id %>','<%= ficha.niveldeformacion %>','<%= ficha.finallectiva %>','<%= ficha.estado %>')">Agregar Aprendices</button>
+                    <button class="btn btn-success" onclick="agregarAprendices('<%= ficha.Nombre %>')">Agregar Aprendices</button>
                     <!-- <form action="getAprendices" method="post">
                       <input type="hidden" name="idFicha" value="<%= ficha.idDB %>">
                       <button>Ver Aprendices</button>
@@ -93,6 +61,7 @@
                     </form>
                   </td> -->
               </tr>
+              
           <% }); %>
       </table>
   <% } else { %>
@@ -101,6 +70,81 @@
           <strong>No hay fichas disponibles!</strong> Intenta agregando una ficha.
       </div>
   <% } %>
+
+<br>
+      
+
+
+
+
+      <div class="modal" id="modalAgregarAprendices">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="tituloAggApr"></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+  <div class="modal" id="modalAgregar">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Agregar una ficha</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="aggficha">
+            <form action="/addFicha" method="post" class="agregarFicha">
+              <div>
+                <label for="" class="form-label mt-4">nombre de la ficha</label>
+                <input type="text" name="name" id="" class="form-control">
+              </div>
+              <div>
+            <label for="" class="form-label mt-4">nivel de formacion</label>
+              <select name="level" id="idDelSelect" class="form-select">
+                  <option value="" selected>Seleccione una opción</option>
+                  <option value="1">Auxiliar</option>
+                  <option value="2">Operario</option>
+                  <option value="3">Técnico</option>
+                  <option value="4">Tecnólogo</option>
+                </select>  
+              </div>
+              <div>
+              <label for="" class="form-label mt-4" >id de la ficha</label>
+              <input type="text" name="id" id="" class="form-control">
+              </div>  
+              <div>
+                <label for="" class="form-label mt-4">fin de la etapa lectiva</label>
+                <input type="date" name="end" id="finalLectInput" class="form-control">
+              </div>
+
+             <label for="" class="form-label mt-4"></label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary">Agregar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
 
     <div class="modal" id="miModal">
         <div class="modal-dialog" role="document">
@@ -138,10 +182,7 @@
                 <label for="">fin de la etapa lectiva</label>
                 <input type="date" name="end" id="finallect">
               </div>
-              <div>
-                <label for="">estado</label>
-                <input type="text" name="estado" id="estado">
-            </div>
+  
             </div>
             <%= error %>
             <div class="modal-footer">

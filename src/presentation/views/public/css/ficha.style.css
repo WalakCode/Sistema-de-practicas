@@ -3,6 +3,13 @@
     --bs-modal-margin:2.5rem;
 }
 
+#modalAgregar{
+    --bs-modal-width:40%;
+    --bs-modal-margin:2.5rem;
+}
+
+
+
 table {
     border-collapse: collapse;
     width: 100%;
@@ -79,5 +86,11 @@ th.col6{
 
 .buton{
     display: flex;
+    flex-direction: column;
+}
+
+.butonAgg{
+    display: flex;
+    width: 100%;
     flex-direction: column;
 }

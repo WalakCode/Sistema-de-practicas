@@ -15,17 +15,32 @@ function inicializarModal() {
     });
   }
 
+function agregarAprendices(ficha){
+  
+  const myModal = new bootstrap.Modal(document.getElementById('modalAgregarAprendices'));
+
+  const titulo = document.getElementById('tituloAggApr')
+  titulo.textContent = ficha
+  myModal.show();
+
+}
+
+function agregarFicha(){
+  const myModal = new bootstrap.Modal(document.getElementById('modalAgregar'));
+  myModal.show();
+}
+
+
+
 function verAprendices(id,nombre,idficha,nivel,final,estado) {
     const myModal = new bootstrap.Modal(document.getElementById('miModalAprendices'));
     const nombreTitulo = document.getElementById('titulo')
-    const estadoFicha = document.getElementById('estadoModal')
     const idFichaModal = document.getElementById('idFichaModal')
     const nivelModalficha = document.getElementById('nivelModalficha')
     const finalLectModal = document.getElementById('finalLectModal')
     idFichaModal.textContent = "Ficha: " + idficha
     nivelModalficha.textContent = "Nivel de formacion: " + nivel
     finalLectModal.textContent = "Final de la etapa lectiva: " + final
-    estadoFicha.textContent =  "Estado: " + estado
     nombreTitulo.textContent = "Ficha de Caracterización: "+nombre
 
     const url = baseUrl + "getAprendices"
@@ -97,7 +112,6 @@ function eliminarFicha(id) {
      const idDelSelectmodal = document.getElementById('idDelSelectmodal')
      const idficha = document.getElementById('idficha')
      const finallect = document.getElementById('finallect')
-     const estado = document.getElementById('estado')
      const hidden = document.getElementById('hidden')
     
      nombreFicha.value = nombre
@@ -124,7 +138,6 @@ function eliminarFicha(id) {
      idficha.value = ficha
      finallect.value = final
      hidden.value = id
-     estado.value = estadoFicha
      myModal.show();
  }  
  

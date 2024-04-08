@@ -8,8 +8,7 @@ const getFichas = async () => {
        fichas.nombre_ficha AS Nombre, 
        fichas.ficha_id AS id, 
        niveles.nombre_nivel AS 'niveldeformacion', 
-       DATE_FORMAT(fichas.final_lectiva, '%Y-%m-%d') AS 'finallectiva',
-       fichas.estado AS estado
+       DATE_FORMAT(fichas.final_lectiva, '%Y-%m-%d') AS 'finallectiva'
        FROM fichas
        JOIN niveles ON fichas.nivel = niveles.id_niveles;
        `
@@ -31,8 +30,7 @@ const getFicha = async (id) => {
        SELECT nombre_ficha AS Formacion, 
        ficha_id AS ID, 
        nombre_nivel AS 'nivel de formacion', 
-       DATE_FORMAT(fichas.final_lectiva, '%Y-%m-%d') AS 'final de etapa lectiva',
-       fichas.estado AS estado
+       DATE_FORMAT(fichas.final_lectiva, '%Y-%m-%d') AS 'final de etapa lectiva'
        FROM fichas 
        JOIN niveles on nivel = id_niveles
        WHERE id_ficha = ?

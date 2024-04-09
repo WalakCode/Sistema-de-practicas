@@ -19,7 +19,7 @@
       </div>
     <% } %>
 
-    
+
     
     <% if (fichas.length > 0) { %>
       <table>
@@ -48,7 +48,7 @@
                   
                   <td>
                     <button class="btn btn-warning" onclick="verAprendices('<%= ficha.idDB %>','<%= ficha.Nombre %>','<%= ficha.id %>','<%= ficha.niveldeformacion %>','<%= ficha.finallectiva %>','<%= ficha.estado %>')">Ver Aprendices</button>
-                    <button class="btn btn-success" onclick="agregarAprendices('<%= ficha.Nombre %>')">Agregar Aprendices</button>
+                    <button class="btn btn-success" onclick="agregarAprendices('<%= ficha.Nombre %>','<%= ficha.idDB %>')">Agregar Aprendices</button>
                     <!-- <form action="getAprendices" method="post">
                       <input type="hidden" name="idFicha" value="<%= ficha.idDB %>">
                       <button>Ver Aprendices</button>
@@ -72,10 +72,10 @@
   <% } %>
 
 <br>
+<div id="add-ficha-container">
+  <button onclick="agregarFicha()" class="btn btn-dark">Agregar Aprendices </button>
+</div>
       
-
-
-
 
       <div class="modal" id="modalAgregarAprendices">
         <div class="modal-dialog" role="document">
@@ -87,11 +87,15 @@
               </button>
             </div>
             <div class="modal-body">
-              <p>Modal body text goes here.</p>
+              <form action="/addAprendices" method="post" enctype="multipart/form-data">
+                Agrega aprendices
+                <input type="text" name="id" id="idhidd" hidden>
+                <input type="file" name="excel" id="" accept=".xlsx, .xls">
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button class="btn btn-success">Agregar </button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </form>
             </div>
           </div>
         </div>
@@ -184,7 +188,6 @@
               </div>
   
             </div>
-            <%= error %>
             <div class="modal-footer">
               <button class="btn btn-info">Actualizar</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -227,11 +230,18 @@
               <span aria-hidden="true"></span>
             </button>
           </div>
-          <div class="modal-body">
-            <h5 id="estadoModal"></h5>
-            <h5 id="idFichaModal"></h5>
-            <h5 id="nivelModalficha"></h5>
-            <h5 id="finalLectModal"></h5>
+          <div class="titleVer">
+            <div class="titulos">
+              <h5 id="idfichaver" hidden> </h5>
+              <h5 id="estadoModal"></h5>
+              <h5 id="idFichaModal"></h5>
+              <h5 id="nivelModalficha"></h5>
+              <h5 id="finalLectModal"></h5>
+            </div>
+
+            <div class="titulosboton">
+                <button onclick="eliminarAprendices()" type="button" class="btn btn-danger" id="elminarAprendices">Eliminar Aprendices</button>
+            </div>
           </div>
           <div class="modal-body">
 
@@ -252,20 +262,39 @@
               </tbody>
             </table>
 
-            
-
-
+          
           </div>
-          <form action="deleteFicha" method="post">
-            <input type="hidden" name="hidden" id="hiddenDelete">
             <div class="modal-footer">
-              <button class="btn btn-danger">Eliminar</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
-          </form>
         </div>
       </div>
   </div>
+
+  <div class="modal" id="modalEliminarAprendices">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Eliminando Aprendices</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <strong>Deseas realmente eliminar los aprendices de esta formacion?</strong>
+        </div>
+        <div class="modal-footer">
+          <form action="/deleteAprendices" method="post">
+          <input type="text" name="id" id="idfichaEliminarver" hidden>
+          <button class="btn btn-danger">Eliminar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
 </body>
 </html>

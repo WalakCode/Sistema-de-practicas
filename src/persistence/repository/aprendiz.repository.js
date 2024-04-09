@@ -20,6 +20,26 @@ const getAprendices = async (idFicha) => {
     }
   };
 
+const deleteAprendices = async(idficha)=>{
+  const db = await createConnection();
+    try {
+      const status = await db.query(
+          `
+          DELETE FROM aprendices WHERE ficha = ?
+          `,
+        idficha
+      );
+      return status;
+    } catch (error) {
+      console.log(error);
+      return null;
+    } finally {
+      await db.end();
+    }
+}
+
 module.exports = {
-    getAprendices
+    getAprendices,
+    deleteAprendices
+
   };

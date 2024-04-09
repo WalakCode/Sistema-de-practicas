@@ -8,7 +8,11 @@
     --bs-modal-margin:2.5rem;
 }
 
-
+#add-ficha-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
 
 table {
     border-collapse: collapse;
@@ -58,7 +62,7 @@ th.col6{
 .agregarFicha{
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 80%;
     border-radius: 2%;
     border: 1px solid #dddddd;
 }
@@ -94,3 +98,21 @@ th.col6{
     width: 100%;
     flex-direction: column;
 }
+
+.titleVer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.titulos{
+    margin-left: 1%;
+
+}
+
+.titulosboton{
+    margin-right: 4%;
+    
+}
+

@@ -76,7 +76,6 @@ const verifyFicha = async (id) => {
     return status;
   } catch (error) {
     console.log(error);
-    console.log('s')
     return null;
   } finally {
     await db.end();
@@ -125,42 +124,38 @@ const insertFicha = async (datos) => {
 };
 
 const insertAprendices = async (datos, id) => {
-  console.log(id);
   const db = await createConnection();
+
   try {
-    for (const aprendiz of datos) {
-      const {
-        "Tipo de Documento": tipo_documento,
-        "Número de Documento": numero_documento,
-        Nombre: nombres,
-        Apellidos: apellidos,
-        Celular: celular,
-        "Correo Electrónico": correo_personal,
-        Estado: estado,
-      } = aprendiz;
-      const query =
-        "INSERT INTO aprendices (ficha,tipo_documento, numero_documento, nombres, apellidos, celular, correo_personal, estado) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
-      const values = [
-        id,
-        tipo_documento,
-        numero_documento,
-        nombres,
-        apellidos,
-        celular || 0,
-        correo_personal || "",
-        estado,
-      ];
-      await db.execute(query, values);
-    }
-    const result = true;
-    return result;
+      for (const elemento of datos) {
+          const values = [
+              id,
+              elemento['Tipo de Documento'],
+              elemento['Número de Documento'],
+              elemento.Nombre,
+              elemento.Apellidos,
+              elemento.Celular || 0,
+              elemento['Correo Electrónico'] || "",
+              elemento.Estado
+          ];
+
+          await db.query(
+              `
+              INSERT INTO aprendices (ficha, tipo_documento, numero_documento, nombres, apellidos, celular, correo_personal, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+              `,
+              values
+          );
+      }
+
+      return true;
   } catch (error) {
-    console.log(error);
-    return null;
+      console.error(error);
+      return null;
   } finally {
-    await db.end();
+      await db.end();
   }
 };
+
 
 const verifyAprendices = async (id) => {
   const db = await createConnection();
@@ -191,3 +186,29 @@ module.exports = {
   deleteFicha,
   getFicha
 };
+
+//for (const aprendiz of datos) {
+  //   const {
+  //     "Tipo de Documento": tipodocumento,
+  //     "Número de Documento": numero_documento,
+  //     Nombre: nombres,
+  //     Apellidos: apellidos,
+  //     Celular: celular,
+  //     "Correo Electrónico": correo_personal,
+  //     Estado: estado,
+  //   } = aprendiz;
+  //   const query =
+  //     "INSERT INTO aprendices (ficha,tipo_documento, numero_documento, nombres, apellidos, celular, correo_personal, estado) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
+
+  //   const values = [
+  //     id,
+  //     tipo_documento,
+  //     numero_documento,
+  //     nombres,
+  //     apellidos,
+  //     celular || 0,
+  //     correo_personal || "",
+  //     estado,
+  //   ];
+  //   await db.execute(query, values);
+  // }

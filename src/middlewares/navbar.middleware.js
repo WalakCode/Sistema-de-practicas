@@ -1,5 +1,4 @@
 const currentUrl = (req, res, next) => {
-   
     if(req.originalUrl == '/login'){
         res.locals.currentUrl = '/alerts'
     }else{

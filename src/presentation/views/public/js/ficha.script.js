@@ -1,5 +1,4 @@
-// const baseUrl = "http://localhost:8080/"
-const baseUrl = "https://practicas.up.railway.app/"
+const baseUrl = "http://localhost:8080/"
 
 window.addEventListener('DOMContentLoaded', inicializarModal);
 
@@ -9,14 +8,25 @@ function inicializarModal() {
   
     // Agregar un listener al evento 'hidden.bs.modal'
     modal.addEventListener('hidden.bs.modal', function () {
-      console.log('Modal ocultado'); // Agrega un console.log para verificar si se ejecuta el evento
       const tableBody = document.getElementById('tableBody');
       tableBody.innerHTML = '';
     });
   }
 
-function agregarAprendices(ficha){
-  
+
+function eliminarAprendices(){
+  console.log('asd')
+  const myModal = new bootstrap.Modal(document.getElementById('modalEliminarAprendices'));
+  const idfichaver = document.getElementById('idfichaver')
+  const idfichaEliminarver = document.getElementById('idfichaEliminarver')
+
+  idfichaEliminarver.value = idfichaver.innerText
+  myModal.show();
+}
+
+function agregarAprendices(ficha,id){
+  const idinput = document.getElementById('idhidd')
+  idinput.value = id
   const myModal = new bootstrap.Modal(document.getElementById('modalAgregarAprendices'));
 
   const titulo = document.getElementById('tituloAggApr')
@@ -26,22 +36,27 @@ function agregarAprendices(ficha){
 }
 
 function agregarFicha(){
+
   const myModal = new bootstrap.Modal(document.getElementById('modalAgregar'));
+  
   myModal.show();
 }
 
 
 
-function verAprendices(id,nombre,idficha,nivel,final,estado) {
+function verAprendices(id,nombre,idficha,nivel,final) {
     const myModal = new bootstrap.Modal(document.getElementById('miModalAprendices'));
     const nombreTitulo = document.getElementById('titulo')
     const idFichaModal = document.getElementById('idFichaModal')
     const nivelModalficha = document.getElementById('nivelModalficha')
     const finalLectModal = document.getElementById('finalLectModal')
+    const idfichaver = document.getElementById('idfichaver')
+
     idFichaModal.textContent = "Ficha: " + idficha
     nivelModalficha.textContent = "Nivel de formacion: " + nivel
     finalLectModal.textContent = "Final de la etapa lectiva: " + final
     nombreTitulo.textContent = "Ficha de Caracterización: "+nombre
+    idfichaver.textContent = id
 
     const url = baseUrl + "getAprendices"
     axios.post(url,{ idFicha: id })
@@ -90,7 +105,6 @@ function verAprendices(id,nombre,idficha,nivel,final,estado) {
 
     myModal.show();
 
-    
    
 }
 
@@ -140,6 +154,9 @@ function eliminarFicha(id) {
      hidden.value = id
      myModal.show();
  }  
+
+
+ 
  
 
 

@@ -82,6 +82,24 @@ const verifyFicha = async (id) => {
   }
 };
 
+const selectFicha = async (fichaid)=>{
+  const db = await createConnection();
+  try {
+    const status = await db.query(
+        `
+       SELECT * FROM fichas where ficha_id = ?
+        `,
+      fichaid
+    );
+    return status;
+  } catch (error) {
+    console.log(error);
+    return null;
+  } finally {
+    await db.end();
+  }
+}
+
 const updateFicha = async (data)=>{
   const db = await createConnection();
   try {
@@ -184,7 +202,8 @@ module.exports = {
   getFichas,
   updateFicha,
   deleteFicha,
-  getFicha
+  getFicha,
+  selectFicha
 };
 
 //for (const aprendiz of datos) {

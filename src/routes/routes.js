@@ -7,6 +7,7 @@ const {getMain,postLogin,getLoginAdmin,getLoginInstructor,getAddFicha,postAddFic
 const {authToken} = require('../middlewares/auth.middleware')
 const {validateAddFichaInputs} = require('../middlewares/addficha.middleware')
 const {currentUrl} = require('../middlewares/navbar.middleware')
+const {eliminarArchivosUpload} = require('../middlewares/upload.middleware')
 router.use(cookieParser());
 
 router.get('/',currentUrl,getMain)
@@ -18,7 +19,7 @@ router.get('/',currentUrl,getMain)
     .post('/updateFicha',authToken,currentUrl,validateAddFichaInputs,postUpdateModal)
     .post('/deleteFicha',authToken,currentUrl,postDeleteModal)
     .post('/getAprendices',authToken,currentUrl,getAprendices)
-    .post('/addAprendices',authToken,currentUrl,upload.single("excel"),postAddAprendices)
+    .post('/addAprendices',eliminarArchivosUpload,authToken,currentUrl,upload.single("excel"),postAddAprendices)
     .post('/deleteAprendices',authToken,currentUrl,postDeleteAprendices)
  
 module.exports = router 

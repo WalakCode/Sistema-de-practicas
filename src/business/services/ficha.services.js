@@ -24,6 +24,8 @@ const getFichaExcel = async (excel, data) => {
           objeto[keys[j]] = range[i][j];
         }
         aprendices.push(objeto);
+
+       
       }
 
   
@@ -33,7 +35,9 @@ const getFichaExcel = async (excel, data) => {
         if (verify[0].length > 0) {
           return { message: "Ya existen aprendices en esa ficha", status: 400 };
         } else {
-          const result = await fichaRepository.insertAprendices(aprendices, data);
+          const aprendicesEnFormacion = aprendices.filter(aprendiz => aprendiz.Estado === 'EN FORMACION');
+          
+          const result = await fichaRepository.insertAprendices(aprendicesEnFormacion, data);
           if (result) {
   
             return {
@@ -166,6 +170,16 @@ const getFichas = async (data) => {
 };
 
 const updateFicha = async (data) => {
+
+  const fichaSelected = await fichaRepository.selectFicha(data.id)
+  if(!fichaSelected){
+    return { message: "error en el servidor", status: 500 };
+  }
+
+  if(fichaSelected[0].length > 0){
+    return { message: "Ya existe ficha con ese ID", status: 400 };
+  }
+
   const result = await fichaRepository.updateFicha([
     data.name,
     data.level,

@@ -36,7 +36,7 @@ const getFichaExcel = async (excel, data) => {
           return { message: "Ya existen aprendices en esa ficha", status: 400 };
         } else {
           const aprendicesEnFormacion = aprendices.filter(aprendiz => aprendiz.Estado === 'EN FORMACION');
-          
+
           const result = await fichaRepository.insertAprendices(aprendicesEnFormacion, data);
           if (result) {
   
@@ -176,7 +176,9 @@ const updateFicha = async (data) => {
     return { message: "error en el servidor", status: 500 };
   }
 
-  if(fichaSelected[0].length > 0){
+  console.log(fichaSelected[0][0]['id_ficha'])
+
+  if(fichaSelected[0].length > 0 && fichaSelected[0][0]['id_ficha'] != data.hidden){
     return { message: "Ya existe ficha con ese ID", status: 400 };
   }
 

@@ -16,9 +16,7 @@ const eliminarArchivosUpload = (req, res, next) => {
             fs.unlink(rutaArchivo, err => {
                 if (err) {
                     console.error(`Error al eliminar el archivo ${archivo}:`, err);
-                } else {
-                    console.log(`El archivo ${archivo} ha sido eliminado.`);
-                }
+                } 
             });
         });
 

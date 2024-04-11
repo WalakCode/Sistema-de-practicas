@@ -3,7 +3,6 @@ const fichaRepository = require("../../persistence/repository/ficha.repository")
 
 const getFichasEjecucion = async()=>{
   const result = await fichaRepository.getFichasEjecion()
-  console.log(result[0])
   if(!result){
     return { message: "Error en el servidor", status: 500 };
   }

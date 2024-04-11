@@ -4,10 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/css/ficha.style.css">
 </head>
 <body>
     <%- include('admin_navigation') %>
 
-    
+    <input type="text" id="filterInput" class="form-control"  oninput="filterTable()" placeholder="Filtrar por ID...">
+    <br><br>
+
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <% Object.keys(info[0]).forEach((key, index) => { %>
+                    <% if (key !== 'idDB') { %> 
+                        <th><%= key %></th>
+                    <% } %>
+                <% }) %>
+            </tr>
+        </thead>
+        <tbody>
+            <% info.forEach(obj => { %>
+                <tr>
+                    <% Object.keys(obj).forEach((key, index) => { %>
+                        <% if (key !== 'idDB') { %> 
+                            <td><%= obj[key] %></td>
+                        <% } %>
+                    <% }) %>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <script>
+        function filterTable() {
+            var input, filter, table, tr, td, i, j, txtValue, found;
+            input = document.getElementById("filterInput");
+            filter = input.value.trim().toLowerCase();
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                if (i === 0) continue; 
+                found = false;
+                td = tr[i].getElementsByTagName("td")[1]; 
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toLowerCase().startsWith(filter)) { 
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 </body>
 </html>

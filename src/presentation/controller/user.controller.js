@@ -55,9 +55,13 @@ const getLoginInstructor = async (req, res) => {
 };
 
 const getUpdateAprendiz = async (req, res) => {
-
-  
-  res.render("admin/admin_updateAprendiz");
+  const result = await fichaService.getFichasEjecucion()
+  if(!result.status == 200){
+    const error = result.message;
+    res.render("admin/error.ejs", { error });
+  }
+  const info = result.info
+  res.render("admin/admin_updateAprendiz",{info});
 };
 
 const postLogin = async (req, res) => {

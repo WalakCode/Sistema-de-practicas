@@ -1,6 +1,15 @@
 const xlsxPopulate = require("xlsx-populate");
 const fichaRepository = require("../../persistence/repository/ficha.repository");
 
+const getFichasEjecucion = async()=>{
+  const result = await fichaRepository.getFichasEjecion()
+  console.log(result[0])
+  if(!result){
+    return { message: "Error en el servidor", status: 500 };
+  }
+  return { message: "exito", status: 200 ,info:result[0]};
+}
+
 const getFichaExcel = async (excel, data) => {
   try {
     const workbook = await xlsxPopulate.fromFileAsync(excel);
@@ -249,4 +258,5 @@ module.exports = {
   deleteFicha,
   getFicha,
   getFichaExcel,
+  getFichasEjecucion
 };

@@ -1,5 +1,27 @@
 const createConnection = require("../../config/db");
 
+const getFichasEjecion = async () => {
+  const db = await createConnection();
+  try {
+    const status = await db.execute(
+      `SELECT fichas.id_ficha AS idDB,
+      fichas.nombre_ficha AS Nombre, 
+      fichas.ficha_id AS id, 
+      niveles.nombre_nivel AS 'niveldeformacion'
+      FROM fichas
+      JOIN niveles ON fichas.nivel = niveles.id_niveles
+      where estado = "EN EJECUCION"
+       `
+    );
+    return status;
+  } catch (error) {
+    console.log(error);
+    return null;
+  } finally {
+    await db.end();
+  }
+};
+
 const getFichas = async () => {
   const db = await createConnection();
   try {
@@ -279,7 +301,8 @@ module.exports = {
   selectFicha,
   getEstado,
   updateEstado,
-  getEstadoDos
+  getEstadoDos,
+  getFichasEjecion
 };
 
 //for (const aprendiz of datos) {

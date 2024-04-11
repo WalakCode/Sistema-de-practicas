@@ -16,7 +16,6 @@ function inicializarModal() {
 
 
 function eliminarAprendices(){
-  console.log('asd')
   const myModal = new bootstrap.Modal(document.getElementById('modalEliminarAprendices'));
   const idfichaver = document.getElementById('idfichaver')
   const idfichaEliminarver = document.getElementById('idfichaEliminarver')

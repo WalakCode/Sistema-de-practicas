@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%- include('admin_navigation') %>
+
+    <% if (error) { %>
+        <div class="alert alert-dismissible alert-danger">
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          <strong><%= error %></strong>
+        </div>
+      <% } %>
+
+    <form action="/addInstructor" method="post">
+        <label for="" class="form-label mt-4">Nombres</label>
+        <input type="text" class="form-control" name="nombres">
+        <label for="" class="form-label mt-4">Apellidos</label>
+        <input type="text" class="form-control" name="apellidos">
+        <label for="" class="form-label mt-4">cedula</label>
+        <input type="text" class="form-control" name="cedula">
+        <label for="" class="form-label mt-4">numero telefonico</label>
+        <input type="text" class="form-control" name="telefono">
+        <label for="" class="form-label mt-4" >Correo SENA</label>
+        <input type="text" class="form-control" name="correo">
+        <button class="btn btn-success">Agregar</button>
+    </form>
+</body>
+</html>

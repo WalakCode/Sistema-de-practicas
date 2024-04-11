@@ -1,6 +1,8 @@
 const aprendizRepository = require("../../persistence/repository/aprendiz.repository");
 
 const getAprendices = async (idFicha) => {
+
+  
   const result = await aprendizRepository.getAprendices(idFicha);
   if (result) {
     return { message: "exito", status: 200, info: result[0] };

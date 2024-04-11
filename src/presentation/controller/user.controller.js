@@ -1,6 +1,7 @@
 const userService = require("../../business/services/user.services");
 const fichaService = require("../../business/services/ficha.services");
 const aprendizService = require("../../business/services/aprendiz.services");
+const instructorService = require('../../business/services/instructor.services')
 const jwt = require("jsonwebtoken");
 
 const getMain = async (req, res) => {
@@ -18,13 +19,18 @@ const getAddFicha = async (req, res) => {
   if (result.status == 200) {
     const error = null;
     const fichas = result.info;
-    
     res.render("admin/admin_addFicha", { error, fichas});
   } else {
     const error = result.message;
     res.render("admin/error.ejs", { error });
   }
 };
+
+const getAddInstructor = async(req,res)=>{
+  const error = null
+  res.render('admin/admin_addInstructor',{error})
+}
+
 
 const postAddFicha = async (req, res) => {
   const data = req.body;
@@ -46,6 +52,12 @@ const postAddFicha = async (req, res) => {
 
 const getLoginInstructor = async (req, res) => {
   res.render("instructor/instructor_reports");
+};
+
+const getUpdateAprendiz = async (req, res) => {
+
+  
+  res.render("admin/admin_updateAprendiz");
 };
 
 const postLogin = async (req, res) => {
@@ -135,9 +147,6 @@ const postAddAprendices = async (req, res) => {
       res.render("admin/error.ejs", { error });
     }
   } else {
-    // console.log(req.body.id)
-    // console.log(req.file.path)
-
     const result = await fichaService.getFichaExcel(req.file.path, req.body.id);
     if (result.status == 200) {
       res.redirect("addFicha");
@@ -174,16 +183,34 @@ const postDeleteAprendices = async(req,res)=>{
 
 }
 
+const postAddInstructor = async(req,res)=>{
+  console.log(req.body)
+  const data = [req.body.nombres,req.body.apellidos,req.body.cedula,req.body.telefono,req.body.correo]
+  const result = await instructorService.addInstructor(data)
+
+  if(!result.status == 200){
+    const error = result.message
+    res.render('admin/admin_addInstructor',{error})
+  }
+  const error = null
+  res.render('admin/admin_addInstructor',{error})
+
+
+}
+
 module.exports = {
   getMain,
   postLogin,
   getLoginAdmin,
   getLoginInstructor,
+  getAddInstructor,
   getAddFicha,
   postAddFicha,
   postDeleteModal,
   postUpdateModal,
   getAprendices,
   postAddAprendices,
-  postDeleteAprendices
+  postDeleteAprendices,
+  postAddInstructor,
+  getUpdateAprendiz
 };

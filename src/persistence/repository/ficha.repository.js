@@ -8,7 +8,8 @@ const getFichas = async () => {
        fichas.nombre_ficha AS Nombre, 
        fichas.ficha_id AS id, 
        niveles.nombre_nivel AS 'niveldeformacion', 
-       DATE_FORMAT(fichas.final_lectiva, '%Y-%m-%d') AS 'finallectiva'
+       DATE_FORMAT(fichas.final_lectiva, '%Y-%m-%d') AS 'finallectiva',
+       estado as estado
        FROM fichas
        JOIN niveles ON fichas.nivel = niveles.id_niveles;
        `
@@ -30,7 +31,8 @@ const getFicha = async (id) => {
        SELECT nombre_ficha AS Formacion, 
        ficha_id AS ID, 
        nombre_nivel AS 'nivel de formacion', 
-       DATE_FORMAT(fichas.final_lectiva, '%Y-%m-%d') AS 'final de etapa lectiva'
+       DATE_FORMAT(fichas.final_lectiva, '%Y-%m-%d') AS 'final de etapa lectiva',
+       estado as estado
        FROM fichas 
        JOIN niveles on nivel = id_niveles
        WHERE id_ficha = ?
@@ -45,6 +47,77 @@ const getFicha = async (id) => {
     await db.end();
   }
 };
+
+
+const getEstado = async ()=>{
+  const db = await createConnection();
+  try {
+    const status = await db.query(
+        `
+        SELECT f.id_ficha 
+FROM fichas f 
+WHERE (
+    SELECT COUNT(*) 
+    FROM aprendices a
+    WHERE a.ficha = f.id_ficha
+) > 0 
+AND NOT EXISTS (
+    SELECT 1
+    FROM aprendices a
+    WHERE a.ficha = f.id_ficha
+    AND a.estado = 'EN FORMACION'
+)
+AND f.estado != 'FINALIZADO';
+        `,
+    );
+    return status;
+  } catch (error) {
+    console.log(error);
+    return null;
+  } finally {
+    await db.end();
+  }
+} 
+
+const getEstadoDos = async ()=>{
+  const db = await createConnection();
+  try {
+    const status = await db.query(
+        `
+        SELECT DISTINCT f.id_ficha 
+        FROM fichas f 
+        JOIN aprendices a ON f.id_ficha = a.ficha 
+        WHERE f.estado != 'EN EJECUCION' 
+        AND a.estado = 'EN FORMACION';
+        `,
+    );
+    return status;
+  } catch (error) {
+    console.log(error);
+    return null;
+  } finally {
+    await db.end();
+  }
+} 
+
+
+const updateEstado = async (id)=>{
+  const db = await createConnection();
+  try {
+    const status = await db.query(
+        `
+        UPDATE fichas SET estado = ? WHERE id_ficha = ?
+        `,id
+    );
+    return status;
+  } catch (error) {
+    console.log(error);
+    return null;
+  } finally {
+    await db.end();
+  }
+} 
+
 
 const deleteFicha = async (id) => {
   const db = await createConnection();
@@ -128,7 +201,7 @@ const insertFicha = async (datos) => {
   try {
     const status = await db.execute(
       `
-        INSERT INTO fichas (nombre_ficha,ficha_id,nivel,final_lectiva,estado) VALUES (?,?,?,?,"WIP")
+        INSERT INTO fichas (nombre_ficha,ficha_id,nivel,final_lectiva,estado) VALUES (?,?,?,?,"EN EJECUCION")
       `,
       datos
     );
@@ -203,7 +276,10 @@ module.exports = {
   updateFicha,
   deleteFicha,
   getFicha,
-  selectFicha
+  selectFicha,
+  getEstado,
+  updateEstado,
+  getEstadoDos
 };
 
 //for (const aprendiz of datos) {

@@ -161,6 +161,32 @@ const getFicha = async (id) => {
 };
 
 const getFichas = async (data) => {
+
+  const fichaID = await fichaRepository.getEstado()
+  if(!fichaID){
+    return { message: "error en el servidor", status: 500 };
+  }
+
+  if(fichaID[0].length > 0){
+    for (const e of fichaID[0]) {
+      const id = e.id_ficha;
+      const estado = 'FINALIZADO'
+      await fichaRepository.updateEstado([estado,id]);
+    }
+  }else{
+
+    const fichaIDdos = await fichaRepository.getEstadoDos()
+
+    if(!fichaIDdos){
+      return { message: "error en el servidor", status: 500 };
+    }
+    for (const e of fichaIDdos[0]) {
+      const id = e.id_ficha;
+      const estado = 'EN EJECUCION'
+      await fichaRepository.updateEstado([estado,id]);
+    }
+  }
+  
   const result = await fichaRepository.getFichas();
   if (result) {
     return { message: "exito", info: result[0], status: 200 };
@@ -176,7 +202,6 @@ const updateFicha = async (data) => {
     return { message: "error en el servidor", status: 500 };
   }
 
-  console.log(fichaSelected[0][0]['id_ficha'])
 
   if(fichaSelected[0].length > 0 && fichaSelected[0][0]['id_ficha'] != data.hidden){
     return { message: "Ya existe ficha con ese ID", status: 400 };
@@ -213,6 +238,9 @@ const deleteFicha = async (data) => {
     return { message: "error en el servidor", status: 500 };
   }
 };
+
+
+
 
 module.exports = {
   addFicha,

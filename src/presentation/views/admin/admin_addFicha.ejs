@@ -13,7 +13,7 @@
     <%- include('admin_navigation') %>
 
     <% if (error) { %>
-      <div class="alert alert-dismissible alert-warning">
+      <div class="alert alert-dismissible alert-danger">
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <strong><%= error %></strong>
       </div>
@@ -73,7 +73,7 @@
 
 <br>
 <div id="add-ficha-container">
-  <button onclick="agregarFicha()" class="btn btn-dark">Agregar Aprendices </button>
+  <button onclick="agregarFicha()" class="btn btn-dark">Agregar Ficha</button>
 </div>
       
 
